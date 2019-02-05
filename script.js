@@ -1,13 +1,17 @@
-var css = document.querySelector("h3");
-var color1 = document.querySelector(".color1");
-var color2 = document.querySelector(".color2");
-var body = document.getElementById("gradient");
+const css = document.querySelector("h3");
+const color1 = document.querySelector(".color1");
+const color2 = document.querySelector(".color2");
+const body = document.getElementById("gradient");
+
+//The initial gradient
 function onLoadBackground () {
 	color1.value = "#ff0000";
 	color2.value = "#ffff00";
 	css.textContent = body.style.background + ";";
 }
-onLoadBackground();
+window.onload = onLoadBackground();
+
+//Setting gradient after input
 function setGradient() {
 	body.style.background = 
 	"linear-gradient(to right, " 
@@ -18,43 +22,28 @@ function setGradient() {
 
 	css.textContent = body.style.background + ";";
 }
-
+//Adding event listeners to trigger new gradient after input
 color1.addEventListener("input", setGradient);
 
 color2.addEventListener("input", setGradient);
 
-var randomButton = document.getElementById("randomButton");
-var moreStyles = document.getElementById("more");
+//A button that would generate a random gradient
+const randomButton = document.getElementById("randomButton");
+//randNumber function produces a random number in hexadecimal format (for creating a hex color input value)
+//As browser demands two-digit numbers, zero is added before a numbers if its length < 2
+let randNumber = function () {
+	let rand = Math.floor(Math.random()*256).toString(16);
+	if(rand.length < 2) {
+		return "0" + rand;
+	} return rand;
+}
 
-// function getRandNumber() {
-// var randNumber = Math.floor(Math.random()*256);
-// return randNumber;
-// }
-var randNumber1 = Math.floor(Math.random()*256);
-var randNumber2 = Math.floor(Math.random()*256);
-var randNumber3 = Math.floor(Math.random()*256);
-var randNumber4 = Math.floor(Math.random()*256);
-var randNumber5 = Math.floor(Math.random()*256);
-var randNumber6 = Math.floor(Math.random()*256);
-
-// function randStyle() {
-// 	body.style.background = 
-// 	"linear-gradient(to right, rgb(" + getRandNumber() +", "
-// 	+ getRandNumber() + ", " + getRandNumber() + "), rgb(" +
-// 	getRandNumber() + ", " + getRandNumber() + ", " + getRandNumber() +
-// 	"))";
-// }
-
+//Setting the random gradient using the generated random numbers
 function randStyle() {
-	body.style.background = 
-	"linear-gradient(to right, rgb(" + randNumber1 +", "
-	+ randNumber2 + ", " + randNumber3 + "), rgb(" +
-	randNumber4 + ", " + randNumber5 + ", " + randNumber6 +
-	"))";
+	color1.value = "#" + randNumber() + randNumber() + randNumber();
+	color2.value = "#" + randNumber() + randNumber() + randNumber();
+	body.style.background = "linear-gradient(to right, " + color1.value + "," + color2.value + ")";
 	css.textContent = body.style.background + ";";
 }
 
 randomButton.addEventListener("click", randStyle);
-moreStyles.addEventListener("click", function() {
-	location.reload();
-})
